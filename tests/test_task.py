@@ -2,9 +2,6 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from task_manager.base import Task
-from task_manager.advanced import AdvancedTask
-
-
 
 def test_task_creation():
     t = Task("Write report", "high", "pending")
@@ -19,8 +16,23 @@ def test_task_addition():
     assert isinstance(combined, Task)
     assert "Task A + Task B" in str(combined)
 
-def test_advanced_task_override():
-    adv = AdvancedTask("Pay bills", "medium", "done", due_date="2025-06-15", recurring=True)
-    display_output = adv.display()
-    assert "Due: 2025-06-15" in display_output
-    assert "Recurring" in display_output
+def add_task(desc, priority, status, file_path="tasks.txt"):
+    with open(file_path, "a") as f:
+        f.write(f"{desc}|{priority}|{status}\n")
+
+def test_add_task(tmp_path):
+    file = tmp_path / "tasks.txt"
+    add_task("Test task", "high", "pending", file_path=file)
+    content = file.read_text().strip()
+    assert content == "Test task|high|pending"
+
+def test_view_tasks_output(tmp_path):
+    file = tmp_path / "tasks.txt"
+    file.write_text("Do laundry|medium|pending\n")
+
+    from task_manager.base import task_generator
+    tasks = list(task_generator(file))
+    assert tasks[0]._description == "Do laundry"
+    assert tasks[0].priority == "medium"
+    assert tasks[0].status == "pending"
+

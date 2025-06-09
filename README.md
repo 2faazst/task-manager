@@ -29,7 +29,3 @@ A terminal-based task manager built in Python using object-oriented programming 
 - `Makefile` for build and run automation
 
 ---
-
-## 📁 Project Structure
-
-# task-manager

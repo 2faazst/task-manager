@@ -5,14 +5,6 @@ from task_manager.utils import deco
 TASK_FILE = "tasks.txt"
 
 @deco("cyan")
-def menu():
-    return (
-        "\nTask Manager CLI\n"
-        "1. Add Task\n"
-        "2. View Tasks\n"
-        "3. Merge Another Task File\n"
-        "4. Exit\n"
-    )
 
 def add_task():
     desc = input("Enter task description: ")
@@ -36,7 +28,6 @@ def view_tasks():
             "low": "green"
         }.get(task.priority.lower(), "cyan")
 
-        # Dynamically color the output using the decorator
         @deco(color)
         def output():
             return str(task)

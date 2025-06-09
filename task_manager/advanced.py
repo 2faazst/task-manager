@@ -16,5 +16,5 @@ class AdvancedTask(Task):
         if self.due_date:
             extras.append(f"Due: {self.due_date}")
         if self.recurring:
-            extras.append("🔁 Recurring")
+            extras.append("Recurring")
         return f"{base} {' | '.join(extras)}"

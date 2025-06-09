@@ -32,7 +32,7 @@ class Task:
             return Task(f"{self._description} + {other._description}")
         raise TypeError("Can only add Task to Task")
 
-    @deco("yellow")  # You can dynamically change color later based on priority
+    @deco("yellow")  
     def display(self):
         return str(self)
 

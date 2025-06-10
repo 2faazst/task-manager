@@ -1,2 +1,3 @@
-do homework|medium|done
-breathe air|high|done
+drink water|low|pending
+buy grocery|medium|done
+homework|high|pending

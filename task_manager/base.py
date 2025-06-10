@@ -36,7 +36,7 @@ class Task:
     def display(self):
         return str(self)
 
-    
+
 
 def task_generator(filepath: str) -> Generator[Task, None, None]:
     with open(filepath, 'r') as file:

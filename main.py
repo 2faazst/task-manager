@@ -4,8 +4,6 @@ from task_manager.utils import deco
 
 TASK_FILE = "tasks.txt"
 
-@deco("cyan")
-
 def add_task():
     desc = input("Enter task description: ")
     priority = input("Enter priority (low/medium/high): ")
@@ -33,37 +31,6 @@ def view_tasks():
             return str(task)
 
         print(output())
-
-def update_task_status():
-    tasks = list(task_generator(TASK_FILE))
-    if not tasks:
-        print("No tasks to update.")
-        return
-
-    print("\nTasks:")
-    for idx, task in enumerate(tasks):
-        print(f"{idx + 1}. {task}")
-
-    try:
-        selection = int(input("Enter the task number to update: ")) - 1
-        if selection < 0 or selection >= len(tasks):
-            print("Invalid task number.")
-            return
-
-        new_status = input("Enter new status (pending/done): ").strip().lower()
-        if new_status not in ['pending', 'done']:
-            print("Invalid status.")
-            return
-
-        tasks[selection].status = new_status
-
-        with open(TASK_FILE, "w") as file:
-            for t in tasks:
-                file.write(f"{t._description}|{t.priority}|{t.status}\n")
-
-        print("Status updated.")
-    except ValueError:
-        print("Invalid input.")
 
 def delete_task():
     tasks = list(task_generator(TASK_FILE))
@@ -98,19 +65,20 @@ def merge_files():
         return
 
     with open(filepath, "r") as other, open(TASK_FILE, "a") as current:
-        current.writelines(other.readlines())
+        for line in other:
+            current.write(line.rstrip('\n') + '\n')
 
     print("\033[95mFiles merged successfully!\033[0m")
+
 
 def main():
     while True:
         print("\nTask Manager CLI")
         print("1. Add Task")
         print("2. View Tasks")
-        print("3. Update Task Status")
-        print("4. Delete Task")
-        print("5. Merge Another Task File")
-        print("6. Exit")
+        print("3. Delete Task")
+        print("4. Merge Another Task File")
+        print("5. Exit")
 
         choice = input("Select an option: ").strip()
 
@@ -119,12 +87,10 @@ def main():
         elif choice == '2':
             view_tasks()
         elif choice == '3':
-            update_task_status()
-        elif choice == '4':
             delete_task()
-        elif choice == '5':
+        elif choice == '4':
             merge_files()
-        elif choice == '6':
+        elif choice == '5':
             print("Goodbye!")
             break
         else:

@@ -36,10 +36,17 @@ class Task:
     def display(self):
         return str(self)
 
+    @staticmethod
+    def is_valid_priority(priority: str) -> bool:
+        return priority.lower() in {"low", "medium", "high"}
+
+    @classmethod
+    def from_line(cls, line: str):
+        desc, prio, status = line.strip().split('|')
+        return cls(desc, prio, status)
 
 
 def task_generator(filepath: str) -> Generator[Task, None, None]:
     with open(filepath, 'r') as file:
         for line in file:
-            desc, prio, status = line.strip().split('|')
-            yield Task(desc, prio, status)
+            yield Task.from_line(line)

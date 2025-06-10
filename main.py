@@ -59,16 +59,22 @@ def delete_task():
         print("Invalid input.")
 
 def merge_files():
-    filepath = input("Enter the path of another task file to merge: ")
-    if not os.path.exists(filepath):
-        print("\033[91mFile not found.\033[0m")
+    paths = input("Enter paths of task files to merge (comma-separated): ").split(',')
+
+    valid_paths = [path.strip() for path in paths if os.path.exists(path.strip())]
+
+    if not valid_paths:
+        print("\033[91mNo valid files found to merge.\033[0m")
         return
 
-    with open(filepath, "r") as other, open(TASK_FILE, "a") as current:
-        for line in other:
-            current.write(line.rstrip('\n') + '\n')
+    with open(TASK_FILE, "a") as current:
+        for path in valid_paths:
+            with open(path, "r") as file:
+                for line in file:
+                    current.write(line.rstrip('\n') + '\n')  # Ensures clean newlines
 
     print("\033[95mFiles merged successfully!\033[0m")
+
 
 
 def main():

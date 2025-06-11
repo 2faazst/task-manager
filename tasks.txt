@@ -1,2 +1,4 @@
 drink water|low|pending
-buy grocery|medium|done
+exam|high|pending
+buy games|low|pending
+brush teeth|low|pending
